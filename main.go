@@ -1,7 +1,10 @@
 package main
 
 // importing package
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // entry point
 func main() {
@@ -128,4 +131,109 @@ func printday(day string) {
 
 	// output : [4]
 	fmt.Println(mySlice)
+
+	// loops
+	// go only have a for loop for iterating
+
+	// traditional loop
+	for i := 0; i <= 5; i++ {
+		fmt.Println(i)
+	}
+
+	// iterating through array /slice
+	nums := []int{3, 4, 5, 6}
+
+	// i gets the index and num get the value at the index
+	for i, num := range nums {
+		fmt.Println(i, num)
+	}
+
+	// pointers
+	// lets create a variable
+	var num int = 10
+
+	// lets store the memory address of the num in a pointer variable
+	var numPointer *int = &num
+
+	fmt.Println("value of num : ", num)
+	fmt.Println("pointer address : ", numPointer)
+
+	// updating the value of num using the pointer
+	*numPointer = 20
+	fmt.Println("updated value of num : ", num)
+
+	// structs
+	// we can declare a structure using TYPE ans STRUCT keywords
+
+	// for example we can create a person struct with name and age properties
+
+	type Person struct {
+		name string
+		age  int8
+	}
+
+	var person = Person{name: "john", age: 22}
+
+	fmt.Println(person)
+
+	// changing the value of name
+	person.name = "ajeesh"
+
+	fmt.Println(person)
+
+	// we can access the values of each using this
+	var username string = person.name
+
+	fmt.Println(username)
+
+	// passing struct in functions
+	// struct User and printUser function is defined outside the main function
+	var userDetails User
+
+	userDetails.name = "ajeesh"
+	userDetails.age = 22
+	userDetails.isMarried = false
+
+	printUser(userDetails)
+
+	// error handling
+	// getting the result and err form the divideFunc
+	// in go err is returned like a normal value
+	result, err := divideFunc(5, 0)
+
+	//checking if it got any error using the err!= nil
+	// if so printing the err and returning
+	if err != nil {
+		fmt.Println("Error: ", err)
+		return
+	}
+	fmt.Println("Result: ", result)
+
+	
+}
+
+// user type
+type User struct {
+	name      string
+	age       int8
+	isMarried bool
+}
+
+// function which take argument in User struct
+func printUser(user User) {
+
+	fmt.Println("name : ", user.name)
+	fmt.Println("age : ", user.age)
+	fmt.Println("married : ", user.isMarried)
+
+}
+
+// divide function which have a not divisible by zero check
+func divideFunc(a, b float64) (float64, error) {
+	if b == 0 {
+		// returning 0 and a custom err message
+		return 0, errors.New("not divisible by zero ")
+	}
+	// retun result,nil
+	return a / b, nil
 }
